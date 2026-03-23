@@ -37,8 +37,6 @@ services:
       - "5001:5000"
     networks:
       - app-net
-    command: >
-      sh -c "python -c 'from app import app, db, seed_demo_teacher; app.app_context().__enter__(); db.create_all(); seed_demo_teacher()' && gunicorn --bind 0.0.0.0:5000 --workers 2 --timeout 60 app:app"
 
 volumes:
   pgdata:

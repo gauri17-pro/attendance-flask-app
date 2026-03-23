@@ -10,5 +10,5 @@ with app.app_context():
     print('✅ Database ready.')
 "
 
-echo "🚀 Starting Gunicorn..."
-exec gunicorn --bind 0.0.0.0:5000 --workers 2 --timeout 60 app:app
+echo "🚀 Starting app..."
+exec "$@"

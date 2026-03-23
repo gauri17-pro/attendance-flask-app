@@ -33,12 +33,14 @@ RUN addgroup --system appgroup && adduser --system --ingroup appgroup appuser
 USER appuser
 
 # Entrypoint script
-COPY entrypoint.sh /entrypoint.sh
+COPY --chmod=755 entrypoint.sh /entrypoint.sh
 
 EXPOSE 5000
 
 ENV FLASK_APP=app.py \
     FLASK_ENV=production \
     PYTHONUNBUFFERED=1
+
+ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "2", "--timeout", "60", "app:app"]
