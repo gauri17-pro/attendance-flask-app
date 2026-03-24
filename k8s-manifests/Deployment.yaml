@@ -19,3 +19,10 @@ spec:
           image: gauris17/attendanceapp:latest
           ports:
             - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: web-config
+      imagePullSecrets:
+        - name: docker-creds
+
+

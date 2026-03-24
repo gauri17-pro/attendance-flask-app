@@ -74,3 +74,8 @@ attendance-app/
     ├── catalogue.html      # Main attendance view
     └── report.html
 ```
+
+kubectl create secret docker-registry docker-creds \
+  --docker-username=gauris17 \
+  --docker-password=Gauri@123 \
+  --dry-run=client -o yaml > Secrets.yaml
