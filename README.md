@@ -79,3 +79,7 @@ kubectl create secret docker-registry docker-creds \
   --docker-username=gauris17 \
   --docker-password=Gauri@123 \
   --dry-run=client -o yaml > Secrets.yaml
+
+  ```
+  kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+  ```
