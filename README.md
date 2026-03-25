@@ -83,3 +83,19 @@ kubectl create secret docker-registry docker-creds \
   ```
   kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
   ```
+
+  ```
+  kubectl patch deployment metrics-server -n kube-system \
+>   --type='merge' \
+>   -p '{
+>     "spec": {
+>       "template": {
+>         "metadata": {
+>           "labels": {
+>             "k8s-app": "metrics-server"
+>           }
+>         }
+>       }
+>     }
+>   }'
+  ```
