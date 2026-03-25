@@ -99,3 +99,14 @@ kubectl create secret docker-registry docker-creds \
 >     }
 >   }'
   ```
+
+```
+kubectl create secret docker-registry docker-creds \
+  --docker-username=gauri17-pro \
+  --docker-password=Gauri@123 \
+  --dry-run=client -o yaml | \
+kubeseal \
+  --controller-name sealed-secrets-controller \
+  --controller-namespace kube-system \
+  -o yaml | tee docker-sealedsecret.yml
+```
