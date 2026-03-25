@@ -110,3 +110,13 @@ kubeseal \
   --controller-namespace kube-system \
   -o yaml | tee docker-sealedsecret.yml
 ```
+
+```
+kubectl create secret generic db-secrets \
+  --from-literal=DB_USER=postgres --from-literal=DB_PASSWORD=postgres \
+  --dry-run=client -o yaml | \
+kubeseal \
+  --controller-name sealed-secrets-controller \
+  --controller-namespace kube-system \
+  -o yaml | tee db-sealedsecret.yml
+```

@@ -22,6 +22,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ .Values.config.name }}
+            - secretRef:
+                name: {{ .Values.dbSecretName }}
       imagePullSecrets:
       - name: {{ .Values.imagePullSecretName }}
 
