@@ -15,10 +15,10 @@ spec:
         app: "{{ .Values.label }}"
     spec:
       containers:
-        - name: "{{ .Values.deployment.name }}"-container 
+        - name: "{{ .Values.deployment.name }}-container"
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           ports:
-            - containerPort: 5000
+            - containerPort: "{{ .Values.deployment.containerPort }}"
           envFrom:
             - configMapRef:
                 name: "{{ .Values.config.name }}"
