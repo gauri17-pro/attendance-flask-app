@@ -1,0 +1,36 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: "{{ .Values.deployment.name }}"
+  labels:
+    app: "{{ .Values.label }}" 
+spec:
+  replicas: "{{ .Values.replicaCount }}"
+  selector:
+    matchLabels:
+      app: "{{ .Values.label }}"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Values.label }}"
+    spec:
+      containers:
+        - name: "{{ .Values.deployment.name }}"-container 
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: "{{ .Values.config.name }}"
+      imagePullSecrets:
+      - name: "{{ .Values.imagePullSecretName }}"
+
+      resources:
+        requests:
+          cpu: "{{ .Values.resources.requests.cpu | quote }}"
+          memory: "{{ .Values.resources.requests.memory | quote }}"
+        limits:
+          cpu: "{{ .Values.resources.limits.cpu | quote }}"
+          memory: "{{ .Values.resources.limits.memory | quote }}"
+
+
