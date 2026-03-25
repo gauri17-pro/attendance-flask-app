@@ -102,7 +102,7 @@ kubectl create secret docker-registry docker-creds \
 
 ```
 kubectl create secret docker-registry docker-creds \
-  --docker-username=gauri17-pro \
+  --docker-username=gauris17 \
   --docker-password=Gauri@123 \
   --dry-run=client -o yaml | \
 kubeseal \
