@@ -28,10 +28,6 @@ COPY --from=builder /install /usr/local
 # Copy application source
 COPY . .
 
-# Create non-root user
-RUN addgroup --system appgroup && adduser --system --ingroup appgroup appuser
-USER appuser
-
 # Entrypoint script
 COPY --chmod=755 entrypoint.sh /entrypoint.sh
 
