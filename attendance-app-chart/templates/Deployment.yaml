@@ -1,29 +1,29 @@
 apiVersion: apps/v1 
 kind: Deployment
 metadata:
-  name: "{{ .Values.deployment.name }}"
+  name: {{ .Values.deployment.name }}
   labels:
-    app: "{{ .Values.label }}" 
+    app: {{ .Values.label }}
 spec:
-  replicas: "{{ .Values.replicaCount }}"
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: "{{ .Values.label }}"
+      app: {{ .Values.label }}
   template:
     metadata:
       labels:
-        app: "{{ .Values.label }}"
+        app: {{ .Values.label }}
     spec:
       containers:
         - name: "{{ .Values.deployment.name }}-container"
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           ports:
-            - containerPort: "{{ .Values.deployment.containerPort }}"
+            - containerPort: {{ .Values.deployment.containerPort }}
           envFrom:
             - configMapRef:
-                name: "{{ .Values.config.name }}"
+                name: {{ .Values.config.name }}
       imagePullSecrets:
-      - name: "{{ .Values.imagePullSecretName }}"
+      - name: {{ .Values.imagePullSecretName }}
 
       resources:
         requests:
