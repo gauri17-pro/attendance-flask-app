@@ -104,7 +104,7 @@ kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/late
 ```
 kubectl create secret docker-registry docker-creds \
   --docker-username=gauris17 \
-  --docker-password=Gauri@123 \
+  --docker-password=YourPassword \
   --dry-run=client -o yaml | \
 kubeseal \
   --controller-name sealed-secrets-controller \
