@@ -17,13 +17,10 @@ A sleek Flask attendance management system for teachers with PostgreSQL backend.
 # 1. Clone and enter the directory
 cd attendance-app
 
-# 2. Copy and configure env
-cp .env.example .env
-
-# 3. Build and start
+# 2. Build and start
 docker compose up --build
 
-# 4. Open http://localhost:5000
+# 3. Open http://localhost:5000
 # Demo login: teacher / password123
 ```
 
@@ -75,16 +72,20 @@ attendance-app/
     └── report.html
 ```
 
+## Create manifests for your application
+
+```
 kubectl create secret docker-registry docker-creds \
   --docker-username=gauris17 \
-  --docker-password=Gauri@123 \
+  --docker-password=YourPassword \
   --dry-run=client -o yaml > Secrets.yaml
+```
 
-  ```
-  kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
-  ```
+```
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+```
 
-  ```
+```
   kubectl patch deployment metrics-server -n kube-system \
 >   --type='merge' \
 >   -p '{
@@ -98,7 +99,7 @@ kubectl create secret docker-registry docker-creds \
 >       }
 >     }
 >   }'
-  ```
+```
 
 ```
 kubectl create secret docker-registry docker-creds \
