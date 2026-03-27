@@ -82,10 +82,6 @@ kubectl create secret docker-registry docker-creds \
 ```
 
 ```
-kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
-```
-
-```
   kubectl patch deployment metrics-server -n kube-system \
 >   --type='merge' \
 >   -p '{
@@ -121,3 +117,27 @@ kubeseal \
   --controller-namespace kube-system \
   -o yaml | tee db-sealedsecret.yml
 ```
+
+## Deploy prometheus and grafana 
+
+```
+helm install monitoring prometheus-community/kube-prometheus-stack
+```
+
+#### Expose Prometheus service
+```
+kubectl get svc
+kubectl expose svc prometheus-operated --type=LoadBalancer --port=9090 --target-port=9090 --name=prometheus-ext
+```
+
+#### Expose Grafana service
+```
+kubectl expose svc monitoring-grafana --type=LoadBalancer --port=3000 --target-port=3000 --name=grafana-ext
+```
+
+#### Fetch the password
+```
+kubectl get secret
+kubectl get secret --namespace default grafana -o jsonpath="{.data.admin-password}" | base64 --decode; echo
+```
+
