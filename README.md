@@ -192,6 +192,6 @@ kubectl expose svc monitoring-grafana --type=LoadBalancer --port=3000 --target-p
 #### Fetch the password
 ```
 kubectl get secret
-kubectl get secret --namespace default grafana -o jsonpath="{.data.admin-password}" | base64 --decode; echo
+kubectl get secret --namespace default monitoring-grafana -o jsonpath="{.data.admin-password}" | base64 --decode; echo
 ```
 
