@@ -195,3 +195,7 @@ kubectl get secret
 kubectl get secret --namespace default monitoring-grafana -o jsonpath="{.data.admin-password}" | base64 --decode; echo
 ```
 
+#### Dashboard for Kubernetes monitoring
+
+- 15760
+- 1860
