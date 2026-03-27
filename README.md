@@ -72,15 +72,63 @@ attendance-app/
     └── report.html
 ```
 
-## Create manifests for your application
+## Deploying your application on EKS
+
+## Using Cloudshell to install eksctl, helm and kubseal
+
+- kubectl is already present on cloudshell 
+
+- Install eksctl
+```
+curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+sudo mv /tmp/eksctl /usr/local/bin
+```
+
+- Install helm
+```
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4
+chmod 700 get_helm.sh
+./get_helm.sh
+```
+
+- Install kubeseal
+```
+KUBESEAL_VERSION='0.35.0' 
+curl -OL "https://github.com/bitnami-labs/sealed-secrets/releases/download/v${KUBESEAL_VERSION:?}/kubeseal-${KUBESEAL_VERSION:?}-linux-amd64.tar.gz"
+tar -xvzf kubeseal-${KUBESEAL_VERSION:?}-linux-amd64.tar.gz kubeseal
+sudo install -m 755 kubeseal /usr/local/bin/kubeseal
+```
+
+- Launching an EKS cluster
+```
+eksctl create cluster -f eks-config.yml
+```
+
+- Install sealed-secrets controller
+```
+helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets
+helm repo update sealed-secrets
+helm install sealed-secrets-controller sealed-secrets/sealed-secrets --namespace kube-system
+```
+
+- Install ArgoCD 
+```
+kubectl create namespace argocd
+kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+```
 
 ```
-kubectl create secret docker-registry docker-creds \
-  --docker-username=gauris17 \
-  --docker-password=YourPassword \
-  --dry-run=client -o yaml > Secrets.yaml
+kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
 ```
 
+```
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
+```
+
+- All the manifests are written inside the k8s-manifests. You can Helmify them.
+
+- We will be implementing HPA (Horizontal Pod Autoscaler) which will need Metrics Server installed.
+  Inside the EKS we have Metrics server already running. We just need to make a small correction.
 ```
   kubectl patch deployment metrics-server -n kube-system \
 >   --type='merge' \
@@ -97,6 +145,7 @@ kubectl create secret docker-registry docker-creds \
 >   }'
 ```
 
+- Create the sealed secrets using command below for pulling the images from private docker registry
 ```
 kubectl create secret docker-registry docker-creds \
   --docker-username=gauris17 \
@@ -108,6 +157,7 @@ kubeseal \
   -o yaml | tee docker-sealedsecret.yml
 ```
 
+- Create the DB related secrets 
 ```
 kubectl create secret generic db-secrets \
   --from-literal=DB_USER=postgres --from-literal=DB_PASSWORD=postgres \
