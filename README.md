@@ -150,10 +150,12 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 kubectl create secret docker-registry docker-creds \
   --docker-username=gauris17 \
   --docker-password=YourPassword \
+  --namespace attendance-app \
   --dry-run=client -o yaml | \
 kubeseal \
   --controller-name sealed-secrets-controller \
   --controller-namespace kube-system \
+  --namespace attendance-app \
   -o yaml | tee docker-sealedsecret.yml
 ```
 
@@ -161,10 +163,12 @@ kubeseal \
 ```
 kubectl create secret generic db-secrets \
   --from-literal=DB_USER=postgres --from-literal=DB_PASSWORD=postgres \
+  --namespace attendance-app \
   --dry-run=client -o yaml | \
 kubeseal \
   --controller-name sealed-secrets-controller \
   --controller-namespace kube-system \
+  --namespace attendance-app \
   -o yaml | tee db-sealedsecret.yml
 ```
 
