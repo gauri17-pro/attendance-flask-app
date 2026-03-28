@@ -8,11 +8,11 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: attendance_db
+      POSTGRES_DB: postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-attendance_db}"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-postgres}"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -31,10 +31,10 @@ services:
       DB_PASSWORD: postgres
       DB_HOST: db
       DB_PORT: 5432
-      DB_NAME: attendance_db
+      DB_NAME: postgres
       SECRET_KEY: postgres
     ports:
-      - "5001:5000"
+      - "5000:5000"
     networks:
       - app-net
 
