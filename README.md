@@ -20,6 +20,8 @@ cd attendance-app
 # 2. Build and start
 docker compose up --build
 
+Note: Execute  dos2unix entrypoint.sh before docker compose up command if running on Windows 
+
 # 3. Open http://localhost:5000
 # Demo login: teacher / password123
 ```
